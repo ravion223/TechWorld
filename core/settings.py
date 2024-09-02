@@ -134,6 +134,11 @@ LOGIN_URL = '/sign-in/'
 
 AUTH_USER_MODEL = 'authentication_system.CustomUser'
 
+AUTHENTICATION_BACKENDS = [
+    'authentication_system.backends.EmailBackend',  # Update with your project name
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
