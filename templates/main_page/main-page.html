@@ -7,6 +7,9 @@
         <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar border-end position-fixed vh-100">
             <div class="position-sticky">
                 <ul class="nav flex-column">
+                    {% if request.user.is_staff or request.user.access == 'admin' %}
+                        <a href="{% url 'categories:create-category' %}" class="btn">Create category</a>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link active" href="#">
                             Category 1
