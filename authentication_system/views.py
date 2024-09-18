@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.views import generic
+from . import models
 from . import forms
 
 # Create your views here.
@@ -38,3 +40,9 @@ def logout_view(request):
     logout(request)
     print("Redirecting to sign-in")
     return redirect('authentication_system:sign-in')
+
+
+class ProfileDetail(generic.DetailView):
+    model = models.CustomUserProfile
+    template_name = 'authentication_system/profile-detail.html'
+    context_object_name = 'profile'

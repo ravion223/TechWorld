@@ -10,22 +10,13 @@
                     {% if request.user.is_staff or request.user.access == 'admin' %}
                         <a href="{% url 'categories:create-category' %}" class="btn">Create category</a>
                     {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            Category 1
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            Category 2
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            Category 3
-                        </a>
-                    </li>
-                    <!-- Add more categories as needed -->
+                    {% for category in categories %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                {{ category.name }}
+                            </a>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
         </nav>

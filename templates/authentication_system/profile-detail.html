@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if request.user.profiles.first.id == profile.id %}
+<h1>My profile</h1>
+
+<h2>{{ profile.user.username }}</h2>
+    {% if profile.first_name %}
+        {{ profile.first_name }}
+    {% endif %}
+    {% if profile.last_name %}
+        {{ profile.last_name }}
+    {% endif %}
+    {% if profile.birth_date %}
+        {{ profile.birth_date }}
+    {% endif %}
+    {% if profile.phone_number %}
+        {{ profile.phone_number }}
+    {% endif %}
+{% endif %}
+
+{% endblock content %}
