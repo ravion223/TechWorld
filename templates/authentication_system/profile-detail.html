@@ -1,22 +1,55 @@
 {% extends 'base.html' %}
 {% block content %}
 
-{% if request.user.profiles.first.id == profile.id %}
-<h1>My profile</h1>
+<div class="container mt-5">
+    {% if request.user.profiles.first.id == profile.id %}
+        <h1 class="display-4">My Profile</h1>
 
-<h2>{{ profile.user.username }}</h2>
-    {% if profile.first_name %}
-        {{ profile.first_name }}
+        <div class="card p-4 mb-4">
+            <h2 class="card-title">{{ profile.user.email }}</h2>
+
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>First Name:</strong> 
+                    {% if profile.first_name %} 
+                        {{ profile.first_name }} 
+                    {% else %} 
+                        Not provided.
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    <strong>Last Name:</strong> 
+                    {% if profile.last_name %} 
+                        {{ profile.last_name }} 
+                    {% else %} 
+                        Not provided.
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    <strong>Birth Date:</strong> 
+                    {% if profile.birth_date %} 
+                        {{ profile.birth_date }} 
+                    {% else %} 
+                        Not provided.
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    <strong>Phone Number:</strong> 
+                    {% if profile.phone_number %} 
+                        {{ profile.phone_number }} 
+                    {% else %} 
+                        Not provided.
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+
+        <!-- Orders Widget Placeholder -->
+        <div class="card text-center bg-light p-4">
+            <h4 class="card-title">My Orders</h4>
+            <p class="card-text">Order information will appear here in the future.</p>
+        </div>
     {% endif %}
-    {% if profile.last_name %}
-        {{ profile.last_name }}
-    {% endif %}
-    {% if profile.birth_date %}
-        {{ profile.birth_date }}
-    {% endif %}
-    {% if profile.phone_number %}
-        {{ profile.phone_number }}
-    {% endif %}
-{% endif %}
+</div>
 
 {% endblock content %}
