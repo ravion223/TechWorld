@@ -9,3 +9,14 @@ class CreateCategoryForm(forms.ModelForm):
         labels = [
             ('name', 'Name')
         ]
+
+
+class CreateProductForm(forms.ModelForm):
+    class Meta:
+        model = models.Product
+        fields = ('name', 'description', 'price', 'product_image')
+        labels = [
+            ('name', 'Name'),
+            ('description', 'Description'),
+            ('price', 'Price')
+        ]

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>{{ category.name }}</h1>
+
+{% if request.user.is_staff or request.user.access == 'admin' %}
+    <a href="{% url 'categories:add-product' category.id %}" class="btn">Add product</a>
+{% endif %}
+
+{% if products %}
+    {% for product in products %}
+        {{ product.name }} <br>
+        {{ product.price }}$ <br><br>
+    {% endfor %}
+{% endif %}
+{% endblock content %}

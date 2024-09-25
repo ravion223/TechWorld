@@ -12,7 +12,7 @@
                     {% endif %}
                     {% for category in categories %}
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">
+                            <a class="nav-link active" href="{% url 'categories:category-detail' category.pk %}">
                                 {{ category.name }}
                             </a>
                         </li>
