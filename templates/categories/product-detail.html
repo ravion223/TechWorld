@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container my-4">
+    <div class="card">
+        <div class="card-body text-center">
+            <h1 class="card-title">{{ product.name }}</h1>
+            {% if product.product_image %}
+                <img src="{{ product.product_image.url }}" class="img-fluid rounded mx-auto d-block my-3" alt="{{ product.name }}">
+            {% else %}
+                <img src="{% static 'img/no-image.jpg' %}" class="img-fluid rounded mx-auto d-block my-3" alt="{{ product.name }}">
+            {% endif %}
+            <p class="card-text">{{ product.description }}</p>
+            <p class="h4 text-primary">{{ product.price }}$</p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

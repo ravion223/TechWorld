@@ -1,16 +1,39 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
-<h1>{{ category.name }}</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">{{ category.name }}</h1>
 
-{% if request.user.is_staff or request.user.access == 'admin' %}
-    <a href="{% url 'categories:add-product' category.id %}" class="btn">Add product</a>
-{% endif %}
+    {% if request.user.is_staff or request.user.access == 'admin' %}
+        <a href="{% url 'categories:add-product' category.id %}" class="btn btn-primary mb-4">Add Product</a>
+    {% endif %}
 
-{% if products %}
-    {% for product in products %}
-        {{ product.name }} <br>
-        {{ product.price }}$ <br><br>
-    {% endfor %}
-{% endif %}
+    {% if products %}
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <a href="{% url 'categories:product-detail' product.pk %}">
+                            {% if product.product_image %}
+                                <img src="{{ product.product_image.url }}" class="card-img-top" alt="{{ product.name }}">
+                            {% else %}
+                                <img src="{% static 'img/no-image.jpg' %}" class="card-img-top" alt="{{ product.name }}">
+                            {% endif %}
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'categories:product-detail' product.pk %}">{{ product.name }}</a>
+                            </h5>
+                            <p class="card-text">{{ product.price }}$</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No products available in this category.</p>
+    {% endif %}
+</div>
+
 {% endblock content %}

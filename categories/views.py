@@ -69,3 +69,9 @@ class ProductCreateView(generic.CreateView):
     
     def get_success_url(self, *args, **kwargs) -> str:
         return reverse_lazy('categories:category-detail', kwargs={'pk': self.kwargs.get('category_id')})
+    
+
+class ProductDetailView(generic.DetailView):
+    model = models.Product
+    template_name = 'categories/product-detail.html'
+    context_object_name = 'product'
