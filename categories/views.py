@@ -1,11 +1,12 @@
 from typing import Any
 from django.forms import BaseModelForm
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.decorators import user_passes_test
 from django.utils.decorators import method_decorator
+from django.views.decorators.http import require_POST
 from . import models
 from . import forms
 
@@ -33,6 +34,24 @@ class CategoryDetailView(generic.DetailView):
         context['products'] = context['category'].products.all()
 
         return context
+    
+
+@method_decorator(user_passes_test(is_user_admin_or_moderator), name='dispatch')
+class CategoryUpdateView(generic.UpdateView):
+    model = models.Category
+    template_name = 'categories/category-update.html'
+    form_class = forms.CategoryUpdateForm
+    success_url = reverse_lazy('main_page:main-page')
+
+
+user_passes_test(is_user_admin_or_moderator)
+def delete_category(request, category_id):
+    if request.method == 'POST':
+        category = get_object_or_404(models.Category, id=category_id)
+        category.delete()
+        return JsonResponse({'message': 'Category deleted successfully'}) and  redirect('main_page:main-page')
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
     
 
 @method_decorator(user_passes_test(is_user_admin_or_moderator), name='dispatch')

@@ -11,6 +11,15 @@ class CreateCategoryForm(forms.ModelForm):
         ]
 
 
+class CategoryUpdateForm(forms.ModelForm):
+    class Meta:
+        model = models.Category
+        fields = ('name',)
+        labels = [
+            ('name', '')
+        ]
+
+
 class CreateProductForm(forms.ModelForm):
     class Meta:
         model = models.Product
