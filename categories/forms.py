@@ -29,3 +29,9 @@ class CreateProductForm(forms.ModelForm):
             ('description', 'Description'),
             ('price', 'Price')
         ]
+
+
+class UpdateProductForm(forms.ModelForm):
+    class Meta:
+        model = models.Product
+        fields = ('name', 'product_image', 'description', 'price')

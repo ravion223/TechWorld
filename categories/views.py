@@ -2,7 +2,7 @@ from typing import Any
 from django.forms import BaseModelForm
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.contrib.auth.decorators import user_passes_test
 from django.utils.decorators import method_decorator
@@ -94,3 +94,24 @@ class ProductDetailView(generic.DetailView):
     model = models.Product
     template_name = 'categories/product-detail.html'
     context_object_name = 'product'
+
+
+@method_decorator(user_passes_test(is_user_admin_or_moderator), name='dispatch')
+class ProductUpdateView(generic.UpdateView):
+    model = models.Product
+    template_name = 'categories/product-update.html'
+    form_class = forms.UpdateProductForm
+    
+    def get_success_url(self) -> str:
+        return reverse_lazy('categories:product-detail', kwargs={'pk': self.kwargs.get('pk')})
+    
+
+user_passes_test(is_user_admin_or_moderator)
+def delete_product(request, product_id):
+    if request.method == 'POST':
+        product = get_object_or_404(models.Product, id=product_id)
+        category_id = product.category.id
+        product.delete()
+        return redirect(reverse('categories:category-detail', args=[category_id]))
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
