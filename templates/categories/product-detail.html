@@ -14,5 +14,35 @@
             <p class="h4 text-primary">{{ product.price }}$</p>
         </div>
     </div>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h2 class="card-title text-center">Leave a Review</h2>
+            <form method="post" action="{% url 'categories:product-detail' product.pk %}" enctype="multipart/form-data" class="needs-validation" novalidate>
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    {{ form.non_field_errors }}
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card my-4">
+        <div class="card-body">
+            <h3 class="card-title">Reviews</h3>
+            {% if product.reviews %}
+                {% for review in product.reviews.all %}
+                    <div class="review border-bottom py-2">
+                        <p>{{ review.content }}</p>
+                        <p class="text-warning">Rating: {{ review.rate }}/5</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No reviews yet...</p>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock content %}

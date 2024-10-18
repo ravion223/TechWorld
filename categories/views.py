@@ -9,6 +9,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_POST
 from . import models
 from . import forms
+from authentication_system import models as auth_models
 
 # Create your views here.
 
@@ -94,6 +95,40 @@ class ProductDetailView(generic.DetailView):
     model = models.Product
     template_name = 'categories/product-detail.html'
     context_object_name = 'product'
+
+    def get_context_data(self, **kwargs: Any):
+        context = super().get_context_data(**kwargs)
+        product = self.get_object()
+        form = forms.AddReviewForm()
+
+        if self.request.user.is_authenticated:
+            try:
+                profile = auth_models.CustomUserProfile.objects.get(user=self.request.user)
+                context['profile'] = profile
+            except models.CustomUserProfile.DoesNotExist:
+                context['profile'] = None
+        else:
+            context['profile'] = None
+
+        context['product'] = product
+        context['form'] = form
+        
+        return context
+
+    def post(self, request, *args, **kwargs):
+        product = self.get_object()
+        form = forms.AddReviewForm(request.POST)
+
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.product = product
+            review.author = request.user
+            review.save()
+            return redirect('categories:product-detail', pk=product.id)
+
+        context = self.get_context_data()
+        context['form'] = form
+        return self.render_to_response(context)
 
 
 @method_decorator(user_passes_test(is_user_admin_or_moderator), name='dispatch')

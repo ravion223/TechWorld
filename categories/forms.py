@@ -35,3 +35,16 @@ class UpdateProductForm(forms.ModelForm):
     class Meta:
         model = models.Product
         fields = ('name', 'product_image', 'description', 'price')
+
+
+class AddReviewForm(forms.ModelForm):
+    class Meta:
+        model = models.Review
+        fields = ('content', 'rate')
+        labels = {
+            'content': 'Commentary'
+        }
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Type here...'}),
+            'rate': forms.NumberInput(attrs={'class': 'form-range', 'type': 'range', 'min': '1', 'max': '5', 'step': '1'})
+        }
